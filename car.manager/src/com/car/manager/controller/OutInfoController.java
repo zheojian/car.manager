@@ -1,5 +1,6 @@
 package com.car.manager.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import com.car.manager.model.CarInfo;
@@ -13,7 +14,7 @@ public class OutInfoController extends BaseController {
 
 	/** outInfo begin ************************************************************/
 	public void index(){
-		String sql = "select o.* , c.license , u.user_name apply_name , a.user_name approve_name from outinfo o join userinfo u on o.apply_uid = u.uid join carinfo c on o.cid = c.cid left join userinfo a on o.approve_uid = a.uid";
+		String sql = "select o.* , c.license , u.user_name apply_name , a.user_name approve_name from outinfo o join userinfo u on o.apply_uid = u.uid join carinfo c on o.cid = c.cid left join userinfo a on o.approve_uid = a.uid order by oid";
 		List<OutInfo> list = OutInfo.dao.find(sql);
 		setAttr("outs", list);
 		render("outInfo.html");
@@ -65,23 +66,44 @@ public class OutInfoController extends BaseController {
 		}
 	}
 	public void approve(){
-		OutInfo outInfo = getModel(OutInfo.class);
+		OutInfo outInfo = new OutInfo();
+		outInfo.set("oid", getParaToInt("oid"));
+		outInfo.set("status", getParaToInt("status"));
 		UserInfo user = (UserInfo) getSession().getAttribute("user");
 		outInfo.set("approve_uid", user.getInt("uid"));
 		if(outInfo.update()){
+			if(outInfo.getInt("status") == 3){
+				outInfo = OutInfo.dao.findById(outInfo.getInt("oid"));
+				CarInfo car = CarInfo.dao.findById(outInfo.getInt("cid"));
+				car.set("status", 0).update();
+			}
 			renderJson(RtKit.rt("y", "修改成功"));
 		}else{
 			renderJson(RtKit.rt("n", "修改失败"));
 		}
 	}
 	
+	public void toFinish(){
+		OutInfo outInfo = OutInfo.dao.findFirst("select o.*,c.license from outinfo o join carinfo c on o.cid = c.cid where o.oid = ?",getParaToInt("oid"));
+		setAttr("outInfo", outInfo);
+		render("outInfoFinish.html");
+	}
+	
 	public void finish(){
 		OutInfo outInfo = getModel(OutInfo.class);
+		OutInfo info = OutInfo.dao.findById(outInfo.get("oid"));
+		long begin = info.getDate("out_date").getTime();
+		long end = outInfo.getDate("come_date").getTime();
+		long use = (end - begin)/(1000*60*60*24) +1;
+		outInfo.set("cost_day", use);
+		outInfo.set("status", 2);
 		if(outInfo.update()){
 			outInfo = OutInfo.dao.findById(outInfo.get("oid"));
 			//将车辆设置为 正常  状态
 			CarInfo carInfo = CarInfo.dao.findById(outInfo.getInt("cid"));
+			carInfo.set("mileage", outInfo.get("end_mile"));
 			carInfo.set("status", 0).update();
+			
 			renderJson(RtKit.rt("y", "修改成功"));
 		}else{
 			renderJson(RtKit.rt("n", "修改失败"));

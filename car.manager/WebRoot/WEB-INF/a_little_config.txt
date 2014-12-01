@@ -1,4 +1,4 @@
-jdbcUrl = jdbc:mysql://127.0.0.1/car_manager?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+jdbcUrl = jdbc:mysql://192.168.56.107/car_manager?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
 user = root
 password = 111
 devMode = true

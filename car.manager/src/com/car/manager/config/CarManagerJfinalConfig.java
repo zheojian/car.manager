@@ -1,17 +1,8 @@
 package com.car.manager.config;
 
-import com.car.manager.controller.BaseController;
-import com.car.manager.controller.CarInfoController;
-import com.car.manager.controller.MainController;
-import com.car.manager.controller.OutInfoController;
-import com.car.manager.controller.UserInfoController;
+import com.car.manager.controller.*;
 import com.car.manager.interceptor.GlobalInterceptor;
-import com.car.manager.model.CarInfo;
-import com.car.manager.model.Dept;
-import com.car.manager.model.Maintain;
-import com.car.manager.model.OutInfo;
-import com.car.manager.model.Refuel;
-import com.car.manager.model.UserInfo;
+import com.car.manager.model.*;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -66,6 +57,7 @@ public class CarManagerJfinalConfig extends JFinalConfig {
 		me.add("/userInfo", UserInfoController.class);
 		me.add("/carInfo", CarInfoController.class);
 		me.add("/outInfo", OutInfoController.class);
+		me.add("/maintain", MaintainInfoController.class);
 	}
 
 }
