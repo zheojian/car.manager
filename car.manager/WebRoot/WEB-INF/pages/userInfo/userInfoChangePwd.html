@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>修改密码</title>
+<#include "../head.html"/>
+<body>
+<form id="userInfoChangePwd" action="changePwd" method="post" class="form-horizontal">
+  <fieldset>
+    <legend>修改密码</legend>
+  <div class="control-group">
+    <label class="control-label" for="userInfo.user_name">姓名</label>
+    <div class="controls">
+      <input type="hidden" id="userInfo.uid" name="userInfo.uid" value=${userInfo.uid}>
+      <input type="text" id="userInfo.user_name" readonly="readonly" value="${userInfo.user_name}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="opassword">原密码</label>
+    <div class="controls">
+      <input type="password" id="opassword" name="opassword" datatype="s3-16" >
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.password">新密码</label>
+    <div class="controls">
+      <input type="password" id="userInfo.password" name="userInfo.password" datatype="s3-16">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="password">重复密码</label>
+    <div class="controls">
+      <input type="password" id="password" datatype="s3-16" recheck="userInfo.password">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">保存</button>
+      <button type="reset" class="btn">重置</button>
+    </div>
+  </div>
+  </fieldset>
+</form>
+<#include "../footer.html"/>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("form").Validform({
+			tiptype:4, 
+			showAllError:true,
+			ajaxPost:true,
+			callback:function(data){
+				alert(data.info);
+				if(data.status == 'y'){
+					window.location.reload();
+				}
+			}
+		});
+	});
+	
+</script>
+</body>

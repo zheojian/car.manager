@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>车辆列表</title>
+<#include "../head.html"/>
+<style type="text/css">
+</style>
+<body>
+<h3>车辆列表</h3>
+<table class="table table-bordered table-striped bind">
+<tbody>
+	<tr><th>车牌号</th><th>驾驶员</th><th>年检日期</th><th>保险日期</th><th>行驶证号</th><th>公里数</th><th>持有人</th>
+	<th>状态</th><th>操作</th></tr>
+	<#if cars?? >
+	<#list cars as car>
+	<tr><td><a href="#" data-toggle="popover" title="" data-content="${car.remark!}" data-original-title="备注">${car.license!}</a></td>
+	<td>${car.user_name!}</td><td>${car.annual_inspect_date!}</td>
+	<td>${car.insurance_date!}</td><td>${car.driving_license!}</td><td>${car.mileage!}</td>
+	<td>${car.owner!}</td><td><#if car.status==0>正常<#elseif car.status == 1>停用<#elseif car.status == 2>保养中<#elseif car.status == 3>外派中</#if></td>
+	<td>&nbsp;<#if pms == 1 || pms == 2><a href="carInfo/toUpdate?carInfo.cid=${car.cid!}">修改</a>&nbsp;&nbsp;<a href="javascript:carInfoDel('${car.cid!}')">删除</a></#if></td></tr>
+	</#list>
+	<#else><tr><td colspan=9>无数据</td></tr>
+	</#if>
+</tbody>
+</table>
+<#include "../footer.html"/>
+<script type="text/javascript">
+	function carInfoDel(cid){
+		if(confirm("确定删除吗？")){
+			$.post('carInfo/del',{ cid : cid , t: (new Date().getTime()) }).done(function( data ) {
+				alert(data.info);
+				window.location.reload();
+			});
+		}
+	}
+	$(document).ready(function() {
+		$('a[data-toggle="popover"]').popover({placement:'right'});
+	});
+	
+</script>
+</body>

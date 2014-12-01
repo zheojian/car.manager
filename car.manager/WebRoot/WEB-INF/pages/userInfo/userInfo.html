@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>用户列表</title>
+<#include "../head.html"/>
+<style type="text/css">
+.modal.fade.in {
+	top: 5%;
+}
+.modal-body{
+	max-height: 300px;
+}
+</style>
+<body>
+<h3>用户列表</h3>
+<table class="table table-bordered table-striped bind">
+<tbody>
+	<tr><th bindData="user_name">姓名</th><th bindData="mobile">手机号码</th><th bindData="identity">身份证号</th>
+	<th bindData="driving_license">驾驶证号</th><th bindData="driving_license_date">驾照日期</th>
+	<th bindData="home_tel">住宅电话</th><th bindData="status">状态</th><th>操作</th></tr>
+	<#if users?? >
+	<#list users as user>
+	<tr><td bindData="user_name"><a href="#" data-toggle="popover" title="" data-content="${user.remark!}" data-original-title="备注">${user.user_name!}</a></td>
+	<td bindData="mobile">${user.mobile!}</td>
+	<td bindData="identity">${user.identity!}</td><td bindData="driving_license">${user.driving_license!}</td>
+	<td bindData="driving_license_date">${user.driving_license_date!}</td><td bindData="home_tel">${user.home_tel!}</td>
+	<td bindData="status"><#if user.status==0>正常<#else>停用</#if></td>
+	<td>&nbsp;<#if pms == 1 || pms == 2><a href="userInfo/toUpdate?userInfo.uid=${user.uid!}">修改</a>&nbsp;&nbsp;<a href="javascript:userInfoDel('${user.uid!}')">删除</a></#if></td></tr>
+	</#list>
+	<#else><tr><td colspan=8>无数据</td></tr>
+	</#if>
+</tbody>
+</table>
+<#include "../footer.html"/>
+<script type="text/javascript">
+	function userInfoDel(uid){
+		if(confirm("确定删除吗？")){
+			$.post('userInfo/del',{ uid : uid , t: (new Date().getTime()) }).done(function( data ) {
+				alert(data.info);
+				window.location.reload();
+			});
+		}
+	}
+	$(document).ready(function() {
+		$('a[data-toggle="popover"]').popover({placement:'bottom'});
+	});
+</script>
+</body>

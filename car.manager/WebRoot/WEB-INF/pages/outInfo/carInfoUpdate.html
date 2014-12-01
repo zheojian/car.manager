@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>修改车辆信息</title>
+<#include "../head.html"/>
+<style type="text/css">
+.modal.fade.in {
+	top: 5%;
+}
+.modal-body{
+	max-height: 300px;
+}
+</style>
+<body>
+<form id="carInfoUpdate" action="update" method="post" class="form-horizontal">
+  <fieldset>
+    <legend>修改车辆信息</legend>
+  <div class="control-group">
+    <label class="control-label" for="carInfo.license">车牌号</label>
+    <div class="controls">
+      <input type="hidden" id="carInfo.cid" name="carInfo.cid" value="${carInfo.cid}">
+      <input type="text" id="carInfo.license" name="carInfo.license" datatype="s7-8"  value="${carInfo.license}">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="carInfo.uid">驾驶员</label>
+    <div class="controls">
+      <select id="carInfo.uid" name="carInfo.uid" datatype="*">
+      <#if users?? >
+      <#list users as user>
+      	<option value=${user.uid} <#if carInfo.uid == user.uid>selected="selected"</#if>>${user.user_name}</option>
+      </#list>
+      </#if>
+      </select>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="carInfo.annual_inspect_date">年检日期</label>
+    <div class="controls">
+      <input type="text" id="carInfo.annual_inspect_date" name="carInfo.annual_inspect_date" datatype="*" 
+      	onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" readonly="readonly"  value="${carInfo.annual_inspect_date}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="carInfo.insurance_date">保险日期</label>
+    <div class="controls">
+      <input type="text" id="carInfo.insurance_date" name="carInfo.insurance_date" datatype="*" 
+      	onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" readonly="readonly"  value="${carInfo.insurance_date}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="carInfo.engine_no">发动机号</label>
+    <div class="controls">
+      <input type="text" id="carInfo.engine_no" name="carInfo.engine_no" datatype="s8-50" value="${carInfo.engine_no}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="carInfo.driving_license">行驶证号</label>
+    <div class="controls">
+      <input type="text" id="carInfo.driving_license" name="carInfo.driving_license" datatype="s8-20" value="${carInfo.driving_license}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="carInfo.owner">持有人</label>
+    <div class="controls">
+      <input type="text" id="carInfo.owner" name="carInfo.owner" datatype="s2-20" placeholder="车辆所有人" value="${carInfo.owner}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="carInfo.mileage">公里数</label>
+    <div class="controls">
+      <input type="text" id="carInfo.mileage" name="carInfo.mileage" datatype="n"  value="${carInfo.mileage}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="carInfo.status">状态</label>
+    <div class="controls">
+      <select id="carInfo.status" name="carInfo.status" datatype="*">
+      	<option value=0 <#if carInfo.status == 0>selected="selected"</#if> >正常</option>
+      	<option value=1 <#if carInfo.status == 1>selected="selected"</#if> >保养</option>
+      	<option value=2 <#if carInfo.status == 2>selected="selected"</#if> >停用</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="carInfo.remark">备注</label>
+    <div class="controls">
+      <textarea id="carInfo.remark" name="carInfo.remark">${carInfo.remark}</textarea>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">保存</button>
+      <button type="reset" class="btn">重置</button>
+    </div>
+  </div>
+  </fieldset>
+</form>
+<#include "../footer.html"/>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("form").Validform({
+			tiptype:4, 
+			showAllError:true,
+			ajaxPost:true,
+			callback:function(data){
+				alert(data.info);
+				if(data.status == 'y'){
+					window.location.reload();
+				}
+			}
+		});
+	});
+	
+</script>
+</body>

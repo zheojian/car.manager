@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>用户列表</title>
+<#include "../head.html"/>
+<style type="text/css">
+.modal.fade.in {
+	top: 5%;
+}
+.modal-body{
+	max-height: 300px;
+}
+</style>
+<body>
+<form id="userInfoAdd" action="add" method="post" class="form-horizontal">
+  <fieldset>
+    <legend>添加用户信息</legend>
+  <div class="control-group">
+    <label class="control-label" for="userInfo.user_name">姓名</label>
+    <div class="controls">
+      <input type="text" id="userInfo.user_name" name="userInfo.user_name" datatype="s3-20">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="userInfo.password">登录密码</label>
+    <div class="controls">
+      <input type="password" id="userInfo.password" name="userInfo.password" datatype="s3-16">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="password">重复密码</label>
+    <div class="controls">
+      <input type="password" id="password" datatype="s3-16" recheck="userInfo.password">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.mobile">手机号</label>
+    <div class="controls">
+      <input type="text" id="userInfo.mobile" name="userInfo.mobile" datatype="m">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.identity">身份证号</label>
+    <div class="controls">
+      <input type="text" id="userInfo.identity" name="userInfo.identity" datatype="*">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.driving_license">驾驶证号</label>
+    <div class="controls">
+      <input type="text" id="userInfo.driving_license" name="userInfo.driving_license" datatype="s8-20">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.driving_license_date">驾驶证日期</label>
+    <div class="controls">
+      <input type="text" id="userInfo.driving_license_date" name="userInfo.driving_license_date" datatype="*" 
+      	onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" readonly="readonly">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.home_tel">住宅电话</label>
+    <div class="controls">
+      <input type="text" id="userInfo.home_tel" name="userInfo.home_tel" datatype="*">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.home_addr">住宅地址</label>
+    <div class="controls">
+      <input type="text" id="userInfo.home_addr" name="userInfo.home_addr" datatype="s3-50">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.status">状态</label>
+    <div class="controls">
+      <select id="userInfo.status" name="userInfo.status" datatype="*">
+      	<option value=0>正常</option>
+      	<option value=1>停用</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.pms">权限</label>
+    <div class="controls">
+      <select id="userInfo.pms" name="userInfo.pms" datatype="*">
+      	<option value=0>用户</option>
+      	<option value=1>管理</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.remark">备注</label>
+    <div class="controls">
+      <textarea id="userInfo.remark" name="userInfo.remark"></textarea>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">保存</button>
+      <button type="reset" class="btn">重置</button>
+    </div>
+  </div>
+  </fieldset>
+</form>
+<#include "../footer.html"/>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#userInfoAdd").Validform({
+			tiptype:4, 
+			showAllError:true,
+			ajaxPost:true,
+			callback:function(data){
+				alert(data.info);
+				if(data.status == 'y'){
+					window.location.reload();
+				}
+			}
+		});
+	});
+	
+</script>
+</body>

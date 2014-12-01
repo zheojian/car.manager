@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>菜单</title>
+<#include "head.html"/>
+</head>
+
+<body>
+	<div class="bs-docs-sidenav">
+		<ul class="nav nav-list bs-docs-sidenav">
+          <li><a href='outInfo' target='main'><i class="icon-chevron-right"></i> 派车管理</a></li>
+          <li><a href='outInfo/toAdd' target='main'><i class="icon-chevron-right"></i> 申请派车</a></li>
+          <li><a href='carInfo' target='main'><i class="icon-chevron-right"></i> 车辆信息</a></li>
+          <#if pms == 1 || pms == 2><li><a href='carInfo/toAdd' target='main'><i class="icon-chevron-right"></i> 新增车辆</a></li></#if>
+          <li><a href='userInfo' target='main'><i class="icon-chevron-right"></i> 人员资料</a></li>
+          <#if pms == 1 || pms == 2><li><a href='userInfo/toAdd' target='main'><i class="icon-chevron-right"></i> 新增人员</a></li></#if>
+          <li><a href='userInfo/toChangePwd' target='main'><i class="icon-chevron-right"></i> 修改密码</a></li>
+        </ul>
+	</div>
+	<#include "footer.html"/>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("ul.nav a").click(function(){
+			$("ul.nav-list > li.active").removeClass("active");
+			$(this).parent().addClass("active");
+		});
+	});
+	</script>
+</body>
+</html>

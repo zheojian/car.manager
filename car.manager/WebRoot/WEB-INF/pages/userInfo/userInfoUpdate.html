@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>修改用户</title>
+<#include "../head.html"/>
+<style type="text/css">
+.modal.fade.in {
+	top: 5%;
+}
+.modal-body{
+	max-height: 300px;
+}
+</style>
+<body>
+<form id="userInfoUpdate" action="update" method="post" class="form-horizontal">
+  <fieldset>
+    <legend>修改用户信息</legend>
+  <div class="control-group">
+    <label class="control-label" for="userInfo.user_name">姓名</label>
+    <div class="controls">
+      <input type="hidden" id="userInfo.uid" name="userInfo.uid" value=${userInfo.uid}>
+      <input type="text" id="userInfo.user_name" name="userInfo.user_name" datatype="s3-20" value="${userInfo.user_name}">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="userInfo.password">登录密码</label>
+    <div class="controls">
+      <input type="password" id="userInfo.password" name="userInfo.password" datatype="s3-16" ignore="ignore">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="password">重复密码</label>
+    <div class="controls">
+      <input type="password" id="password" datatype="s3-16" recheck="userInfo.password" ignore="ignore">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.mobile">手机号</label>
+    <div class="controls">
+      <input type="text" id="userInfo.mobile" name="userInfo.mobile" datatype="m" value="${userInfo.mobile}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.identity">身份证号</label>
+    <div class="controls">
+      <input type="text" id="userInfo.identity" name="userInfo.identity" datatype="*" value="${userInfo.identity}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.driving_license">驾驶证号</label>
+    <div class="controls">
+      <input type="text" id="userInfo.driving_license" name="userInfo.driving_license" datatype="s8-20" value="${userInfo.driving_license}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.driving_license_date">驾驶证日期</label>
+    <div class="controls">
+      <input type="text" id="userInfo.driving_license_date" name="userInfo.driving_license_date" datatype="*" 
+      	onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" readonly="readonly" value="${userInfo.driving_license_date}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.home_tel">住宅电话</label>
+    <div class="controls">
+      <input type="text" id="userInfo.home_tel" name="userInfo.home_tel" datatype="*" value="${userInfo.home_tel}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.home_addr">住宅地址</label>
+    <div class="controls">
+      <input type="text" id="userInfo.home_addr" name="userInfo.home_addr" datatype="s3-50" value="${userInfo.home_addr}">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.status">状态</label>
+    <div class="controls">
+      <select id="userInfo.status" name="userInfo.status" datatype="*">
+      	<option value=0 <#if userInfo.status==0>selected="selected"</#if> >正常</option>
+      	<option value=1 <#if userInfo.status==1>selected="selected"</#if> >停用</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.pms">权限</label>
+    <div class="controls">
+      <select id="userInfo.pms" name="userInfo.pms" datatype="*">
+      	<option value=0 <#if userInfo.pms==0>selected="selected"</#if> >用户</option>
+      	<option value=1 <#if userInfo.pms==1>selected="selected"</#if> >管理</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="userInfo.remark">备注</label>
+    <div class="controls">
+      <textarea id="userInfo.remark" name="userInfo.remark">${userInfo.remark!}</textarea>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">保存</button>
+      <button type="reset" class="btn">重置</button>
+    </div>
+  </div>
+  </fieldset>
+</form>
+<#include "../footer.html"/>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#userInfoUpdate").Validform({
+			tiptype:4, 
+			showAllError:true,
+			ajaxPost:true,
+			callback:function(data){
+				alert(data.info);
+				if(data.status == 'y'){
+					window.location.reload();
+				}
+			}
+		});
+	});
+	
+</script>
+</body>

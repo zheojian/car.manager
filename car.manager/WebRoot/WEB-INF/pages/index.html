@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>管理系统</title>
+<#include "head.html"/>
+<style type="text/css">
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+.navbar .nav li {
+  width: 119px;
+}
+.navbar .nav li a {
+  font-weight: bold;
+  text-align: center;
+  border-left: 1px solid rgba(255,255,255,.75);
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+.navbar .nav li:first-child a {
+  border-left: 0;
+  border-radius: 3px 0 0 3px;
+}
+.navbar .nav li:last-child a {
+  border-right: 0;
+  border-radius: 0 3px 3px 0;
+}
+.hero-unit{
+	padding:0;
+	margin-bottom:0;
+}
+</style>
+
+</head>
+
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="brand" href="#">管理系统</a>
+				<div class="nav-collapse collapse">
+					<p class="navbar-text pull-right">
+		              <i class="icon-user"></i> ${session['user'].user_name} <a href="logout" class="navbar-link"> 注销</a>
+		            </p>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="container" style="width:1000px">
+
+		<div class="row">
+		<div class="span3" style="width:230px">
+		<iframe name="left" src="menu" scrolling=”no” width="100%" height="550px" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+		</div>
+		<div class="span9" style="width:750px">
+		<iframe name="main" src="userInfo" scrolling=”no” width="100%" height="550px" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+		</div>
+		</div>
+		<hr>
+		<div class="row">
+		  <div class="col-xs-12">
+		    <p class="text-center">Copy Right 2014</p>
+		  </div>
+		</div>
+	<#include "footer.html"/>
+	</div>
+	<!-- /container -->
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>车辆列表</title>
+<#include "../head.html"/>
+<style type="text/css">
+</style>
+<body>
+<h3>车辆列表</h3>
+<table class="table table-bordered table-striped bind">
+<tbody>
+	<tr><th>车辆</th><th>申请人</th><th>出车时间</th><th>回归时间</th><th>用车天数</th><th>公里数</th><th>审批人</th>
+	<th>状态</th><th>操作</th></tr>
+	<#if outs?? >
+	<#list outs as out>
+	<tr><td><a href="#" data-toggle="popover" title="" data-content="${out.remark!}" data-original-title="备注">${out.license!}</a></td>
+	<td>${out.apply_name!}</td><td>${out.out_date!}</td>
+	<td>${out.come_date!}</td><td>${out.cost_day!}</td><td><#if out.end_mile?? >${out.end_mile - out.begin_mile!}</#if></td>
+	<td>${out.approve_name!}</td><td><#if out.status==0>待审核<#elseif out.status==1>已批准
+	<#elseif out.status==2>已完成<#elseif out.status==3>已否决</#if></td>
+	<td>&nbsp;<#if pms == 1 || pms == 2>
+	<#if out.status == 0 ><a href="outInfo/toUpdate?outInfo.oid=${out.oid!}">修改</a>&nbsp;
+	<a href="outInfo/approve?outInfo.oid=${out.oid!}&outInfo.status=1">批准</a>&nbsp;
+	<a href="outInfo/approve?outInfo.oid=${out.oid!}&outInfo.status=3">否决</a>&nbsp;
+	<a href="javascript:outInfoDel('${out.oid!}')">删除</a>&nbsp;</#if>
+	<#if out.status == 1 ><a href="outInfo/finish?outInfo.oid=${out.oid!}&outInfo.status=2">完成</a>&nbsp;</#if>
+	</#if></td></tr>
+	</#list>
+	<#else><tr><td colspan=9>无数据</td></tr>
+	</#if>
+</tbody>
+</table>
+<#include "../footer.html"/>
+<script type="text/javascript">
+	function outInfoDel(oid){
+		if(confirm("确定删除吗？")){
+			$.post('outInfo/del',{ oid : oid , t: (new Date().getTime()) }).done(function( data ) {
+				alert(data.info);
+				window.location.reload();
+			});
+		}
+	}
+	$(document).ready(function() {
+		$('a[data-toggle="popover"]').popover({placement:'right'});
+	});
+	
+</script>
+</body>

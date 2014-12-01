@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>登录</title>
+<#include "head.html"/>
+<style type="text/css">
+body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #f5f5f5;
+}
+
+.form-signin {
+	max-width: 300px;
+	padding: 19px 29px 29px;
+	margin: 0 auto 20px;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+
+.form-signin .form-signin-heading, .form-signin .checkbox {
+	margin-bottom: 10px;
+}
+
+.form-signin input[type="text"], .form-signin input[type="password"] {
+	font-size: 16px;
+	height: auto;
+	margin-bottom: 15px;
+	padding: 7px 9px;
+}
+</style>
+</head>
+
+<body>
+
+	<div class="container">
+		
+		<form class="form-signin" action="login" method="post">
+			<h2 class="form-signin-heading">登录</h2>
+			<input type="text" class="input-block-level" placeholder="账号" name="username" datatype="s3-16"> 
+			<input type="password" class="input-block-level" placeholder="密码" name="password" datatype="s3-16"> 
+			<button class="btn btn-large btn-primary" type="submit">登录</button>
+		</form>
+		<div class="row">
+		  <div class="col-xs-12">
+		    <p class="text-center">Copy Right 2014</p>
+		  </div>
+		</div>
+	<#include "footer.html"/>
+	</div>
+	<!-- /container -->
+	<script type="text/javascript">
+	$(document).ready(function(){
+		// 如果在框架中，则跳转刷新上级页面
+		if(self.frameElement && self.frameElement.tagName=="IFRAME"){
+			parent.location.reload();
+		}
+		$("form").Validform({
+			tiptype:4, 
+			showAllError:true,
+			postonce:true,
+			ajaxPost:true,
+			callback:function(data){
+				if(data.status == "y"){
+					window.location.href="index";
+				}else{
+					alert(data.info);
+					$("form")[0].reset();
+					$("input[name='username']").focus();
+				}
+			}
+		});
+	});
+	</script>
+</body>
+</html>
